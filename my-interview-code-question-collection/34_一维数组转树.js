@@ -41,3 +41,7 @@ const arr = [
 ];
 const tree = arrayToTree(arr, 0);
 console.log(tree);
+
+/* 总结
+递归地调用 children = arrayToTree(arr, item.id);
+*/

@@ -1,6 +1,6 @@
 // 首先将起始日期和结束日期转换为Date对象
 const startDate = new Date("1999-02-27");
-const endDate = new Date("1999-03-01");
+const endDate = new Date("1999-04-07");
 // 创建一个空数组来存储有效日期
 const validDates = [];
 // 循环遍历起始日期和结束日期之间的每一天
@@ -20,3 +20,9 @@ for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
 }
 // 打印有效日期数组
 console.log(validDates);
+
+/* 总结： 
+1. 创建日期对象时： new Date('xxxx-xx-xx')
+2. 遍历时，使用 date.setDate(date.getDate() + 1)) 不断增加日期直到 date <= endDate
+3. 格式化时，可以使用 date.toISOString()
+*/
