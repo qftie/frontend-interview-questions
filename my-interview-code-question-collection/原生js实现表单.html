@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #myForm {
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            flex: 1;
+            align-items: center;
+            font-size: 16px;
+            display: flex;
+            justify-content: right;
+        }
+
+        .form-row label {
+            margin-right: 10px;
+        }
+
+        input {
+            display: block;
+            height: 24px;
+        }
+
+        .necessary {
+            color: red;
+        }
+
+        #submit {
+            border: none;
+            background-color: skyblue;
+            color: white;
+            display: block;
+            width: 175px;
+            height: 40px;
+            font-size: 18px;
+        }
+
+        #submit:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>修改用户信息</h1>
+        <form action="" id="myForm">
+            <!-- <div class="form-container"> -->
+            <div class="form-row">
+                <label for="username"><span class="necessary">*</span> 用户名:</label>
+                <input type="text" id="username" name="username" placeholder="请输入用户名">
+            </div>
+            <div class="form-row">
+                <label for="password"><span class="necessary">*</span> 密码:</label>
+                <input type="password" id="password" name="password" placeholder="请输入密码">
+            </div>
+            <div class="form-row">
+                <label for="confirm"><span class="necessary">*</span> 确认密码:</label>
+                <input type="password" id="confirm" name="confirm" placeholder="请再次输入密码">
+            </div>
+            <div class="form-row">
+                <label for="realname">姓名:</label>
+                <input type="text" id="realname" name="realname" placeholder="请输入真实姓名">
+            </div>
+            <div class="form-row">
+                <label for="phoneNumber">手机号:</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="请输入大陆手机号">
+            </div>
+            <div class="form-row">
+                <label for="qqNumber">QQ:</label>
+                <input type="tel" id="qqNumber" name="qqNumber" placeholder="请输入QQ号">
+            </div>
+            <div class="form-row">
+                <button type="submit" id="submit">修改</button>
+            </div>
+
+            <!-- </div> -->
+        </form>
+    </div>
+
+
+    <script>
+        const form = document.getElementById('myForm');
+        function isValidQQ(qq) {
+            const qqRegex = /^[1-9][0-9]{4,}$/;
+            return qqRegex.test(qq);
+        }
+        function isValidPhoneNumber(number) {
+            const phoneRegex = /^(13\d|14[5-9]|15[^4\D]|17[^49\D]|18\d)\d{8}$/;
+            return phoneRegex.test(number)
+        }
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表单默认提交事件
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm').value;
+            const qqNumber = document.getElementById('qqNumber').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            if (!username || !password) { // 验证用户名和密码是否为空
+                alert('用户名和密码不能为空！');
+                return false;
+            }
+            if (password.length < 6) { // 验证密码长度是否大于等于6
+                alert('密码长度不能小于6位！');
+                return false;
+            }
+            if (confirm !== password) {
+                alert('两次输入密码不一致')
+                return false
+            }
+            if (!isValidPhoneNumber(phoneNumber)) {
+                alert('请输入正确格式的手机号')
+                return false
+            }
+            if (!isValidQQ(qqNumber)) {
+                alert('请输入正确格式的QQ号')
+                return false
+            }
+            form.submit(); // 提交表单
+        });
+
+    </script>
+
+</body>
+
+</html>

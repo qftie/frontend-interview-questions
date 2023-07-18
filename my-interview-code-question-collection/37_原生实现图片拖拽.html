@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="https://pic1.zhimg.com/80/v2-87cd9173a0ff6eb2ee447ea15401f534_1440w.webp" alt="">
+
+
+    <script>
+        // 获取图片元素
+        const img = document.querySelector('img');
+
+        // 定义变量记录鼠标是否按下和图片的偏移量
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        // 监听鼠标按下事件
+        img.addEventListener('mousedown', (event) => {
+            // 记录鼠标按下状态和图片偏移量
+            isDragging = true;
+            offsetX = event.offsetX;
+            offsetY = event.offsetY;
+        });
+
+        // 监听鼠标移动事件
+        img.addEventListener('mousemove', (event) => {
+            // 如果鼠标没有按下，则不进行拖拽
+            if (!isDragging) {
+                return;
+            }
+            // 计算图片的新位置
+            const x = event.clientX - offsetX;
+            const y = event.clientY - offsetY;
+            // 设置图片的新位置
+            img.style.left = x + 'px';
+            img.style.top = y + 'px';
+        });
+
+        // 监听鼠标松开事件
+        img.addEventListener('mouseup', () => {
+            // 记录鼠标松开状态
+            isDragging = false;
+        });
+
+
+    </script>
+</body>
+
+</html>

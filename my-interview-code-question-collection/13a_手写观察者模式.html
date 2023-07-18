@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 应用：后台管理系统面包屑，首页就显示“首页”，点击到用户界面就在界面显示””用户“
+        // 组件之间互相隔离，就可以通过观察者模式
+        // 应用TODO,看kervin视频
+
+        // 被观察者身上有一列表的观察者，可在被观察者对象上挂观察者，移除观察者，通知观察者
+        class Subject {
+            constructor() {
+                this.observers = []
+            }
+            add(observer) {
+                this.observers.push(observer)
+            }
+
+            remove(observer) {
+                this.observers.filter(item=>item!=observer)
+            }
+
+            notify() {
+                this.observers.forEach((item) => {
+                    // console.log(item);
+                    item.update()
+                })
+            }
+        }
+
+        // 观察者有自己的属性，被观察者通知观察者的方式就是调用观察者的update函数
+        class Observer {
+            constructor(name) {
+                this.name = name
+            }
+            update() {
+                console.log(this.name,'收到了新信息');
+            }
+        }
+
+        const subject = new Subject()
+        const observer1 = new Observer('张三')
+        const observer2 = new Observer('李四')
+
+        subject.add(observer1)
+        subject.add(observer2)
+
+        setTimeout(()=> subject.notify(),1000)
+        
+    </script>
+</body>
+
+</html>

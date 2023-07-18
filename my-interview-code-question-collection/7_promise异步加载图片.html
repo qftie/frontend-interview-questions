@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="parent"></div>
+    <script>
+        // 异步加载图片实现,只需要在图片的onload函数中，使用resolve返回一下就可以了。
+        function loadImg(src) {
+            // return一个promise实例
+            return new Promise(
+                // promise传入一个函数，该函数有两个参数resolve和reject，这两个参数也是函数
+                (resolve, reject) => {
+                    const img = document.createElement("img");
+                    img.src = src;
+                    img.onload = () => {
+                        // img加载完之后的回调函数
+                        resolve(img); // 如果成功加载图片，resolve传入要返回的对象
+                    };
+                    img.onerror = () => {
+                        reject(new Error(`图片加载失败 ${src}`));
+                    };
+                }
+            );
+        }
+
+        const src1 = "http://www.imooc.com/static/img/index/logo_new.png";
+        const src2 = "https://ttpcstatic.dftoutiao.com/ecms/image/20230320/774x754_6417ec9cc0d63.png_.webp"
+
+        // 加载一张图片
+        // then里面 第一个函数接收resolve传入的对象
+        // loadImg(src).then(img => {
+        //     console.log(img.width);
+        //     return img
+        // }).then(img => {
+        //     console.log(img.height);
+        // }).catch(ex => console.log(ex))
+
+        // 先加载第一张再加载第二张图片
+        loadImg(src1).then(img => {
+            console.log(img.width);
+            return img
+        }).then(img => {
+            console.log(img.height);
+            return loadImg(src2)
+        }).then(img => {
+            console.log(img.width);
+            return img
+        }).then(img => {
+            console.log(img.height);
+        }).catch(ex => { console.log(ex) })
+    </script>
+</body>
+
+</html>

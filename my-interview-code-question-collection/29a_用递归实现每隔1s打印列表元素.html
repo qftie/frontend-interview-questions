@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const list = [1, 2, 3]
+        const square = num => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(num * num)
+                }, 1000)
+            })
+        }
+        // list.forEach(async x => {
+        //     const res = await square(x)
+        //     console.log(res);
+        // })
+        /* 
+        1. 判断以上代码输出结果
+            1s之后输出1 4 9，因为forEach同步代码不会卡住异步
+        2. 如果希望每隔1s输出一个结果应该怎么改？
+
+        */
+        // 基于递归, 上次返回了再执行下一次
+        let index = 0
+        const dfs = () => {
+            if (index >= list.length) return
+            square(list[index]).then(res => {
+                console.log(res);
+                index++;
+                dfs()
+            })
+            return
+        }
+        dfs()
+    </script>
+</body>
+
+</html>

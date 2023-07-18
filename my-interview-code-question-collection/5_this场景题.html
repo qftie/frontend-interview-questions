@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // // this 场景题 - 1
+        // function fn1() {
+        //     console.log(this)
+        // }
+        // fn1() // 打印什么
+
+        // fn1.call({ x: 100 }) // 打印什么
+
+        // const fn2 = fn1.bind({ x: 200 })
+        // fn2() // 打印什么
+
+        // this 场景题 - 2
+        // const zhangsan = {
+        //     name: '张三',
+        //     sayHi() {
+        //         console.log(this)
+        //     },
+        //     wait() {
+        //         setTimeout(function () {
+        //             console.log(this)
+        //         })
+        //     },
+        //     waitAgain() {
+        //         setTimeout(() => {
+        //             console.log(this)
+        //         })
+        //     }
+        // }
+        // zhangsan.sayHi() // 打印什么
+        // zhangsan.wait() // 打印什么
+        // zhangsan.waitAgain() // 打印什么
+
+        // // this 场景题 - 2
+        class People {
+            constructor(name) {
+                this.name = name
+                this.age = 20
+            }
+            sayHi() {
+                console.log(this)
+            }
+        }
+        const zhangsan = new People('张三')
+        zhangsan.sayHi() // 打印什么
+    </script>
+</body>
+
+</html>

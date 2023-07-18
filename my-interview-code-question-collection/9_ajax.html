@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>一段文字</p>
+    <script>
+        // 可以终止请求吗？可以，用xhr.abort()
+        const myAjax = (url) => {
+            // 四步：new一个xhr -> xhr.open -> xhr.onreadystatechange -> xhr.send
+
+            const p = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest()
+                xhr.open('GET', url, true) // 准备数据
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText))
+                        }
+                    } else if (xhr.status === 404) {
+                        reject(new Error("404 Not Found"))
+                    }
+
+                }
+                xhr.send(null) // 注意不要漏掉
+            })
+            return p
+        }
+
+        // fectch
+        // fetch("url",
+        //         { method: "post", body: "", credencial: 'include' })
+        //         .then(res => res.json()) // **
+        //         .then(res => { console.log(res) })
+        // 兼容性问题
+         // 发出的请求，默认是不带cookie.  credencial:'include'
+
+
+        let url = 'https://jsonplaceholder.typicode.com/posts/1'
+        myAjax(url)
+            .then((res) => { console.log(res); })
+            .catch((err) => { console.log(err); })
+        console.log("promise异步请求在此同步代码之后");
+
+
+    </script>
+
+</body>
+
+</html>

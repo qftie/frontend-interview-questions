@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+                this.state = "pending";
+                this.value = undefined;
+                this.reason = undefined;
+                this.resolveCallbacks = []; // pending状态下，存储成功的回调
+                this.rejectCallbacks = []; // pending状态下，存储失败的回调
+                const resolve = (value) => {
+                    if (this.state === "pending") {
+                        this.state = "fulfilled";
+                        this.value = value;
+                        this.resolveCallbacks.forEach((fn) => fn(this.value));
+                    }
+                };
+                const reject = (reason) => {
+                    if (this.state === "pending") {
+                        this.state = "rejected";
+                        this.reason = reason;
+                        this.rejectCallbacks.forEach((fn) => fn(this.reason));
+                    }
+                };
+
+                // 确保用户传入的没有语法报错
+                try {
+                    executor(resolve, reject);
+                } catch (err) {
+                    reject(err);
+                }
+            }
+
+            then(fn1, fn2) {
+                // pending状态下，fn1 fn2 会被存储到callbacks中
+                // 先判断传参是不是函数，如果不是函数就变成函数
+                fn1 = typeof fn1 === "function" ? fn1 : (v) => v;
+                fn2 = typeof fn2 === "function" ? fn2 : (e) => e;
+
+                // 不管是什么样的state都返回一个新的promise
+                if (this.state === "pending") {
+                    // pending状态下，去存储成功回调和失败的回调
+                    const p1 = new MyPromise((resolve, reject) => {
+                        this.resolveCallbacks.push(() => {
+                            try {
+                                const newValue = fn1(this.value)
+                                resolve(newValue)
+                            } catch (err) {
+                                reject(err)
+                            }
+                        });
+                        this.rejectCallbacks.push(() => {
+                            try {
+                                const newReason = fn2(this.Reason);
+                                reject(newReason)
+                            } catch (err) {
+                                reject(err);
+                            }
+                        });
+                    });
+                    return p1;
+                }
+                if (this.state === "fulfilled") {
+                    const p1 = new MyPromise((resolve, reject) => {
+                        try {
+                            const newValue = fn1(this.value);
+                            resolve(newValue); // p1.value
+                        } catch (err) {
+                            reject(err);
+                        }
+                    });
+                    return p1;
+                }
+                if (this.state === "rejected") {
+                    const p1 = MyPromise((resolve, reject) => {
+                        try {
+                            const newReason = fn2(this.reason);
+                            reject(newReason); // p1.reason
+                        } catch (err) {
+                            reject(err);
+                        }
+                    });
+                    return p1;
+                }
+            }
+
+            // catch相当于then的语法糖，then传两个函数，catch传一个函数
+            catch(fn) {
+                return this.then(null, fn);
+            }
+        }
+
+        // MyPromise全局静态api
+        MyPromise.resolve = function (value) {
+            return new MyPromise((resolve, reject) => resolve(value))
+        }
+        MyPromise.reject = function (reason) {
+            return new MyPromise((resolve, reject) => reject(reason))
+        }
+
+
+        // 测试
+        const p1 = new MyPromise((resolve, reject) => {
+            // resolve(100)
+            // reject('错误信息...')
+            setTimeout(() => {
+                resolve(100);
+            }, 2000);
+        });
+
+        const p11 = p1.then(data1 => {
+            console.log('data1', data1)
+            return data1 + 1
+        })
+        const p12 = p11.then(data2 => {
+            console.log('data2', data2)
+            return data2 + 2
+        })
+        const p13 = p12.catch(err => console.error(err))
+
+        // const p2 = MyPromise.resolve(200);
+        // const p3 = MyPromise.resolve(300);
+        // const p4 = MyPromise.reject("错误信息...");
+        // // const p5 = MyPromise.all([p1, p2, p3]) // 传入 promise 数组，等待所有的都 fulfilled 之后，返回新 promise ，包含前面所有的结果
+        // // p5.then(result => console.log('all result', result))
+        // const p6 = MyPromise.race([p1, p2, p3]); // 传入 promise 数组，只要有一个 fulfilled 即可返回
+        // p6.then((result) => console.log("race result", result));
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text">
+    <script>
+      function qfThrottle(fn, delay) {
+        var previous = Date.now();
+        // 使用闭包返回一个函数并且用到闭包函数外面的变量previous
+        return function (...args) {
+          var now = new Date();
+          if (now - previous > delay) {
+            fn.apply(this, args);
+            previous = now;
+          }
+        };
+      }
+    </script>
+    <script>
+      const inputEl = document.querySelector("input");
+      let counter = 1;
+      inputEl.oninput = qfThrottle(function (event) {
+        console.log(`发送网络请求${counter++}:`, this, event);
+      }, 200);
+    </script>
+  </body>
+</html>

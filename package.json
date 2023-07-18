@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "node-stdio": "^0.1.6",
+    "react-router": "^6.9.0",
+    "react-router-dom": "^6.9.0",
+    "readline-sync": "^1.4.10"
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 要求，在for循环中，依次调用异步任务数组中的异步任务(第一个结束再执行第二个，第二个结束再执行第三个），不能使用acync await
+        function timer(t) {
+            return new Promise(resolve=>{
+                setTimeout(()=>{
+                    resolve("data-"+t)
+                },t)
+            })
+            
+        }
+        // timer(3000).then(res=>{
+        //     console.log(res);
+        // })
+        // 异步生成器 async * yiled
+        async function *gen() {
+            yield timer(1000)
+            yield timer(2000)
+            yield timer(3000)
+        }
+        // 应用：node中的事件调度，想象以上的yiled里的函数都是中js中的异步事件（比如读取大文件，读完上一段才能读下一段
+        async function test() {
+            let g = gen() // 生成异步遍历器
+            let arr = [g.next(), g.next(), g.next()]
+            // ！！for await 需要配合异步iterator生成的对象组成数组使用
+            // ！！每次执行时，卡住整个for的代码块, 有结果后
+            for await(let item of arr) {
+                console.log('start', +new Date());
+                console.log(item.value);
+                console.log('end', +new Date());
+            }
+        }
+        test()
+    </script>
+</body>
+</html>
