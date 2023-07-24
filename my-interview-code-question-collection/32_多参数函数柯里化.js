@@ -19,3 +19,10 @@ const add = (x, y, z, a) => x + y + z + a; // 原函数fn
 const curryAdd = curryfy(add); // 将原函数fn柯里化得到新函数
 console.log(curryAdd(1, 2)(3, 1));
 console.log(curryAdd(1, 2, 3)(1));
+
+/* 总结：
+1. 函数长度是总共需要的参数数量 fnLength
+2. 暂存目前为止累计收到的变量 currentVar
+3. 递归 curriedFn，返回一个返回值是 curriedFn(currentVar) 的函数
+4. 终止条件是 fnLength === currentVar.length
+*/
