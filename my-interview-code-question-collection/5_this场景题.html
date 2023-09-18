@@ -11,38 +11,39 @@
 <body>
     <script>
         // // this 场景题 - 1
-        // function fn1() {
-        //     console.log(this)
-        // }
-        // fn1() // 打印什么
+        function fn1() {
+            console.log(this)
+        }
+        fn1() // window
 
-        // fn1.call({ x: 100 }) // 打印什么
+        fn1.call({ x: 100 }) // Object { x: 100 }
 
-        // const fn2 = fn1.bind({ x: 200 })
-        // fn2() // 打印什么
+        const fn2 = fn1.bind({ x: 200 })
+        fn2() // Object { x: 200 }
 
         // this 场景题 - 2
-        // const zhangsan = {
-        //     name: '张三',
-        //     sayHi() {
-        //         console.log(this)
-        //     },
-        //     wait() {
-        //         setTimeout(function () {
-        //             console.log(this)
-        //         })
-        //     },
-        //     waitAgain() {
-        //         setTimeout(() => {
-        //             console.log(this)
-        //         })
-        //     }
-        // }
-        // zhangsan.sayHi() // 打印什么
-        // zhangsan.wait() // 打印什么
-        // zhangsan.waitAgain() // 打印什么
+        const zhangsan = {
+            name: '张三',
+            sayHi() {
+                console.log(this)
+            },
+            wait() {
+                setTimeout(function () {
+                    console.log(this)
+                })
+            },
+            waitAgain() {
+                setTimeout(() => {
+                    console.log(this)
+                })
+            }
+        }
+        zhangsan.sayHi() // Object zhangsan
+        zhangsan.wait() // window
+        // 箭头函数从自己定义时作用域链的上一层继承this 
+        zhangsan.waitAgain() // Object zhangsan
 
-        // // this 场景题 - 2
+        // // this 场景题 - 3
         class People {
             constructor(name) {
                 this.name = name
@@ -52,8 +53,8 @@
                 console.log(this)
             }
         }
-        const zhangsan = new People('张三')
-        zhangsan.sayHi() // 打印什么
+        const lisi = new People('李四')
+        lisi.sayHi() // Object lisi
     </script>
 </body>
 

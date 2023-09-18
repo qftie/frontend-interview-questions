@@ -14,17 +14,12 @@
 
     <input type="text">
 
-    <!-- CDN引入: 网络的js文件 -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.4/underscore-umd-min.js"></script> -->
-    <!-- 本地引入: 下载js文件, 并且本地引入 -->
-    <script src="./js/underscore.js"></script>
-
     <script>
         function myDebounce(fn, delay) {
             // 1.用于记录上一次事件触发的timer
             // 如果不用闭包，上一次和下一次的timer是没有关联的
             let timer = null
-            let immediate = true
+            let immediate = true // 用 immdediate 实现初次触发事件时立即运行的
 
             // 2.触发事件时执行的函数
             const _debounce = function (...args) {
@@ -33,6 +28,7 @@
                 if (immediate) {
                     fn.apply(this, args);
                     immediate = false;
+                    return
                 }
 
                 // 2.2.延迟去执行对应的fn函数(传入的回调函数)
@@ -56,12 +52,6 @@
         // inputEl.oninput = function(event) {
         //   console.log(`发送网络请求${counter++}:`, this, event)
         // }
-
-        // 2.underscore防抖处理代码
-        // let counter = 1
-        // inputEl.oninput = _.debounce(function() {
-        //   console.log(`发送网络请求${counter++}:`, this.value)
-        // }, 1000)
 
         // 3.自己实现的防抖
         let counter = 1

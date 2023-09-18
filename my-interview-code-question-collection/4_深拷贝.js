@@ -32,3 +32,16 @@ newObj.color[0] = "pink";
 
 console.log(newObj);
 console.log(oldObject);
+
+// {
+//   name: '王二袜子',
+//   age: 14,
+//   color: [ 'pink', 'green', 'blue' ],
+//   friend: { name: '小拉' }
+// }
+// {
+//   name: '小智',
+//   age: 14,
+//   color: [ 'orange', 'green', 'blue' ],
+//   friend: { name: '小霞' }
+// }
